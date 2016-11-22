@@ -4,13 +4,29 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="consoleCalendar" class="ConsoleCalendar">
-        <constructor-arg value = ""/>
-        <property name="weekStart" value="MONDAY"/>
-        <property name="locale" value="CANADA"/>
-       <!-- <property name="weekend" value=""/>-->
+    <bean id="calendar" abstract="true" class="Calendar">
+        <property name = "weekStart" value = "MONDAY"/>
+        <property name = "locale" value = "ENGLISH"/>
+        <property name = "weekend">
+            <set>
+                 <value>SATURDAY</value>
+                 <value>FRIDAY</value>
+            </set>
+        </property>
+
+        <property name="today">
+            <bean class="java.time.LocalDate">
+                <constructor-arg index="0" value="2016"/>
+                <constructor-arg index="1" value="11"/>
+                <constructor-arg index="2" value="24"/>
+            </bean>
+        </property>
     </bean>
 
+    <bean id="consoleCalendar" class="ConsoleCalendar" parent="calendar">
+    </bean>
 
+    <bean id="htmlCalendar" class="HtmlCalendar" parent="calendar">
+    </bean>
 
 </beans>

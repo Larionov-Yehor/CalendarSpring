@@ -1,5 +1,6 @@
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -11,27 +12,8 @@ public abstract class Calendar {
 
     private DayOfWeek weekStart;
     private LocalDate today = LocalDate.now();
-    private Set<DayOfWeek> weekend = new HashSet<DayOfWeek>();
+    private Set<DayOfWeek> weekend;
     private Locale locale;
-
-    public Calendar(){
-        this(LocalDate.now());
-    }
-
-    public Calendar(LocalDate today) {
-        this(today, DayOfWeek.MONDAY);
-    }
-
-    public Calendar(DayOfWeek dayOfWeek) {
-        this(LocalDate.now(), dayOfWeek);
-    }
-
-    public Calendar(LocalDate today, DayOfWeek weekStart) {
-        setWeekend(DayOfWeek.SUNDAY, DayOfWeek.SATURDAY);
-        setLocale(Locale.ENGLISH);
-        setWeekStart(weekStart);
-        setToday(today);
-    }
 
     public abstract String printYearHeader();
     public abstract String printMonthHeader();
@@ -184,11 +166,7 @@ public abstract class Calendar {
 
 
     public void setWeekend(DayOfWeek... weekend) {
-        this.weekend.clear();
-        for (DayOfWeek dayOfWeek : weekend) {
-            this.weekend.add(dayOfWeek);
-        }
-
+        this.weekend = new HashSet<DayOfWeek>(Arrays.asList(weekend));
     }
 
     public void setWeekStart(DayOfWeek dayOfWeek) {
